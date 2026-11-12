@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratori – Installa l'app</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f4e79">
+<link rel="icon" href="icon-64.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Laboratori">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script src="config.js"></script>
+<script>
+/* Aperta dall'icona sulla schermata Home → va subito all'app */
+var LINK_OK = typeof APP_URL === 'string' && /^https:\/\/script\.google\.com\//.test(APP_URL);
+var STANDALONE = window.matchMedia('(display-mode: standalone)').matches ||
+  window.matchMedia('(display-mode: fullscreen)').matches || window.navigator.standalone === true;
+function appLink(extra) { return APP_URL + (APP_URL.indexOf('?') < 0 ? '?' : '&') + extra; }
+if (STANDALONE && LINK_OK) {
+  document.documentElement.className = 'go';
+  location.replace(appLink('pwa=1'));
+}
+</script>
+<style>
+:root{--blu:#1f4e79;--blu2:#dbe7f3;--testo:#1d2733;--grigio:#5b6774;--verde:#2e7d32;--giallo:#ffd54f;--bordo:#d0d7de}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--testo);background:#f4f6f9;font-size:17px;line-height:1.45;
+  padding:env(safe-area-inset-top) 16px calc(110px + env(safe-area-inset-bottom))}
+.wrap{max-width:560px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;padding:22px 0 14px}
+header img{width:64px;height:64px;border-radius:15px;flex:none}
+header h1{font-size:22px;margin:0;color:var(--blu);line-height:1.2}
+header p{margin:2px 0 0;color:var(--grigio);font-size:14px}
+.card{background:#fff;border:1px solid var(--bordo);border-radius:14px;padding:18px;margin-bottom:14px}
+h2{font-size:19px;margin:0 0 12px;color:var(--blu)}
+.big{display:block;width:100%;border:0;border-radius:12px;background:var(--blu);color:#fff;font-size:19px;font-weight:600;
+  padding:17px;cursor:pointer;text-align:center;text-decoration:none}
+.big.sec{background:#fff;color:var(--blu);border:2px solid var(--blu);font-size:16px;padding:12px}
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
+ol.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid #eef0f3}
+ol.steps li:first-child{border-top:0}
+ol.steps li::before{content:counter(s);flex:none;width:32px;height:32px;border-radius:50%;background:var(--blu);color:#fff;
+  font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ico{display:inline-flex;vertical-align:-6px;width:28px;height:28px;border:1px solid var(--bordo);border-radius:7px;
+  align-items:center;justify-content:center;background:#fff;margin:0 2px}
+.ico svg{width:18px;height:18px}
+.tip{background:#fff8e1;color:#6b4700;border-radius:10px;padding:12px 14px;font-size:15px;margin-bottom:14px}
+.ok{background:#e8f5e9;color:#1b5e20;border-radius:10px;padding:14px;font-size:16px}
+.small{font-size:14px;color:var(--grigio)}
+.hide{display:none!important}
+.row{display:flex;gap:8px;margin-top:10px}
+.row button{flex:1}
+#qr{display:flex;justify-content:center;padding:8px}
+#qr svg{width:220px;height:220px}
+/* freccia che indica il pulsante Condividi */
+#arrow{position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;color:var(--blu);font-weight:700;font-size:14px;
+  animation:bob 1.1s ease-in-out infinite;pointer-events:none;z-index:5;text-shadow:0 0 6px #fff}
+#arrow svg{width:44px;height:44px}
+#arrow.top{bottom:auto;top:calc(8px + env(safe-area-inset-top));left:auto;right:18px;transform:none;flex-direction:column-reverse}
+#arrow.top svg{transform:rotate(180deg)}
+@keyframes bob{0%,100%{margin-bottom:0;margin-top:0}50%{margin-bottom:-10px;margin-top:-10px}}
+/* apertura dall'icona */
+.go body>*{display:none}
+.go body::after{content:"Apertura dell'app…";display:block;text-align:center;padding-top:40vh;color:var(--blu);font-size:20px}
+/* locandina */
+#poster{display:none}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;padding:0;font-size:14pt}
+  .wrap,#arrow{display:none!important}
+  #poster{display:block}
+  #poster h1{font-size:26pt;color:var(--blu);margin:0 0 4mm;display:flex;align-items:center;gap:5mm}
+  #poster h1 img{width:22mm;height:22mm;border-radius:5mm}
+  #poster .sub{font-size:14pt;margin:0 0 6mm;color:#333}
+  #poster .qrbox{text-align:center;margin:4mm 0 6mm}
+  #poster .qrbox svg{width:65mm;height:65mm}
+  #poster .cols{display:flex;gap:8mm}
+  #poster .cols div{flex:1;border:1px solid #999;border-radius:4mm;padding:4mm 5mm}
+  #poster h3{margin:0 0 2mm;color:var(--blu)}
+  #poster ol{margin:0;padding-left:6mm}
+  #poster li{margin:1.5mm 0}
+  #poster .url{text-align:center;font-size:11pt;color:#555;margin-top:6mm;word-break:break-all}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon-192.png" alt="">
+    <div><h1>Laboratori e aule comuni</h1><p>I.C. Deledda-Pascoli-Don Milani · Scuola secondaria</p></div>
+  </header>
+
+  <div id="noconf" class="tip hide"><b>Pagina non ancora configurata.</b> Nel file <code>config.js</code> va incollato il link dell'app web (quello che finisce con /exec).</div>
+
+  <!-- ===================== ANDROID ===================== -->
+  <section id="android" class="hide">
+    <div id="a-inapp" class="tip hide">Se hai aperto il link da WhatsApp, Gmail o Telegram, prima tocca <b>⋮</b> in alto a destra e scegli <b>«Apri in Chrome»</b>, poi segui i passaggi.</div>
+    <div class="card">
+      <h2>Installa l'app sul telefono o sul tablet</h2>
+      <button id="a-btn" class="big hide">📲 Installa l'app Laboratori</button>
+      <div id="a-manual">
+        <ol class="steps">
+          <li><div>Tocca i tre puntini <span class="ico"><b>⋮</b></span> in alto a destra.</div></li>
+          <li><div>Tocca <b>«Installa app»</b> oppure <b>«Aggiungi a schermata Home»</b>.</div></li>
+          <li><div>Conferma con <b>«Installa»</b>.</div></li>
+        </ol>
+        <p class="small">Con il browser Samsung: tocca <b>≡</b> in basso a destra › <b>«Aggiungi pagina a»</b> › <b>«Schermata Home»</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== iPhone / iPad ===================== -->
+  <section id="ios" class="hide">
+    <div id="i-inapp" class="tip">Se hai aperto il link da WhatsApp, Gmail o un'altra app, prima tocca <b>«Apri in Safari»</b> (o l'icona della bussola <b>🧭</b>), poi segui i passaggi.</div>
+    <div class="card">
+      <h2>Aggiungi l'app alla schermata Home</h2>
+      <ol class="steps">
+        <li><div>Tocca il pulsante <b>Condividi</b>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#0a84ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg></span>
+          <span id="i-where">in basso al centro</span>.<br>
+          <span class="small">Se non lo vedi, tocca prima <b>···</b> oppure la barra dell'indirizzo.</span></div></li>
+        <li><div>Scorri l'elenco e tocca <b>«Aggiungi alla schermata Home»</b>
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span>.</div></li>
+        <li><div>Lascia attivo <b>«Apri come app web»</b>, se compare, e tocca <b>«Aggiungi»</b> in alto a destra.</div></li>
+      </ol>
+    </div>
+    <div id="i-other" class="tip hide">Stai usando un browser diverso da Safari. Se non trovi «Aggiungi alla schermata Home», copia il link e aprilo con <b>Safari</b>.
+      <div class="row"><button class="big sec" onclick="copia()">Copia il link</button></div></div>
+  </section>
+
+  <!-- ===================== COMPUTER ===================== -->
+  <section id="desktop" class="hide">
+    <div class="card">
+      <h2>Vuoi l'app sul telefono o sul tablet?</h2>
+      <p style="margin-top:0">Inquadra il codice con la fotocamera del telefono: si apre questa pagina con le istruzioni giuste per il tuo dispositivo.</p>
+      <div id="qr"></div>
+      <div class="row"><button class="big sec" onclick="window.print()">🖨 Stampa la locandina con il QR code</button></div>
+      <button id="d-btn" class="big sec hide" style="margin-top:10px">💻 Installa anche su questo computer</button>
+    </div>
+  </section>
+
+  <div id="done" class="ok hide"><b>Fatto!</b> Ora trovi l'icona <b>Laboratori</b> tra le app (sulla schermata Home o nell'elenco delle app). Aprila da lì: la prima volta ti verrà chiesto l'account istituzionale.</div>
+
+  <div class="card" id="after">
+    <p style="margin-top:0" class="small">Dopo l'installazione apri <b>Laboratori</b> dalla sua icona. La prima volta accedi con l'<b>email istituzionale</b>; poi resta collegata.</p>
+    <a id="open" class="big sec" href="#">Apri l'app senza installarla</a>
+  </div>
+</div>
+
+<div id="arrow" class="hide"><span>Condividi</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg></div>
+
+<!-- ===================== LOCANDINA (solo stampa) ===================== -->
+<div id="poster">
+  <h1><img src="icon-192.png" alt="">Laboratori e aule comuni</h1>
+  <p class="sub">Prenota i laboratori e segnala i guasti dal telefono o dal tablet.<br><b>Inquadra il codice con la fotocamera e segui le istruzioni.</b></p>
+  <div class="qrbox" id="qr-print"></div>
+  <div class="cols">
+    <div><h3>Android</h3><ol><li>Apri il link in <b>Chrome</b></li><li>Tocca <b>«Installa l'app Laboratori»</b> (oppure ⋮ › «Installa app»)</li><li>Conferma con <b>«Installa»</b></li></ol></div>
+    <div><h3>iPhone e iPad</h3><ol><li>Apri il link in <b>Safari</b></li><li>Tocca <b>Condividi</b> ⬆︎</li><li><b>«Aggiungi alla schermata Home»</b> › <b>«Aggiungi»</b></li></ol></div>
+  </div>
+  <p class="sub" style="margin-top:6mm">Al primo accesso usa l'<b>email istituzionale</b>.</p>
+  <div class="url" id="url-print"></div>
+</div>
+
+<script src="qrcode.js"></script>
+<script>
+(function(){
+  if (STANDALONE && LINK_OK) return;
+  var $ = function(s){ return document.querySelector(s); };
+  var show = function(s){ $(s).classList.remove('hide'); };
+  var hide = function(s){ $(s).classList.add('hide'); };
+  var ua = navigator.userAgent;
+  var iPad = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var ios = /iPhone|iPod/.test(ua) || iPad;
+  var android = /Android/.test(ua);
+  var pageUrl = location.href.split('?')[0].split('#')[0];
+
+  if (!LINK_OK) show('#noconf');
+  $('#open').href = LINK_OK ? APP_URL : '#';
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault(); deferred = e;
+    if (android) { show('#a-btn'); hide('#a-manual'); hide('#a-inapp'); }
+    else if (!ios) show('#d-btn');
+  });
+  window.addEventListener('appinstalled', function(){ fatto(); });
+  function installa(){
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function(r){ if (r.outcome === 'accepted') fatto(); deferred = null; });
+  }
+  $('#a-btn').onclick = installa;
+  $('#d-btn').onclick = installa;
+  function fatto(){ hide('#a-btn'); hide('#d-btn'); hide('#arrow'); show('#done'); }
+
+  if (android) {
+    show('#android');
+    // nelle finestre aperte da WhatsApp/Gmail il pulsante non compare: dopo qualche secondo suggerisce Chrome
+    setTimeout(function(){ if (!deferred) show('#a-inapp'); }, 3500);
+  } else if (ios) {
+    show('#ios');
+    if (/CriOS|FxiOS|EdgiOS|OPiOS|GSA\//.test(ua)) show('#i-other');
+    if (iPad) { $('#i-where').textContent = 'in alto a destra'; $('#arrow').classList.add('top'); }
+    show('#arrow');
+    window.addEventListener('scroll', function(){ if (window.scrollY > 260) hide('#arrow'); else if ($('#done').classList.contains('hide')) show('#arrow'); }, { passive: true });
+  } else {
+    show('#desktop');
+  }
+
+  // QR code della pagina (schermo e locandina)
+  $('#url-print').textContent = pageUrl;
+  function qr(el){
+    try {
+      var q = qrcode(0, 'M'); q.addData(pageUrl); q.make();
+      el.innerHTML = q.createSvgTag({ cellSize: 8, margin: 2, scalable: true, alt: 'QR code della pagina di installazione' });
+    } catch (err) { el.innerHTML = '<p class="small" style="text-align:center">' + pageUrl + '</p>'; }
+  }
+  if (!android && !ios) qr($('#qr'));
+  qr($('#qr-print'));
+
+  window.copia = function(){
+    var fine = function(){ alert('Link copiato. Ora apri Safari, tocca la barra dell\'indirizzo e incolla.'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(pageUrl).then(fine, function(){ prompt('Copia questo link:', pageUrl); });
+    else prompt('Copia questo link:', pageUrl);
+  };
+})();
+</script>
+</body>
+</html>
